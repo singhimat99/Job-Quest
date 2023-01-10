@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Form from "./components/Form";
+import Jobs from "./components/Jobs";
 import reactLogo from "./assets/react.svg";
 
 function App() {
@@ -7,6 +9,8 @@ function App() {
     return (
         <div className="App">
             <h1 className="text-red-500">Hola</h1>
+            <Form />
+            <Jobs />
         </div>
     );
 }
