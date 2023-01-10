@@ -1,3 +1,5 @@
+import { config } from "dotenv";
+config();
 import express, { Response, Request } from "express";
 import mongoose from "mongoose";
 import JobModel from "./models/Job";
@@ -16,12 +18,8 @@ app.post("/jobs", async (req: Request, res: Response) => {
     res.json(createdJob);
 });
 
-mongoose
-    .connect(
-        "mongodb+srv://singhimat99:T4g8JrlnLVzfZgxH@cluster0.wnaznvn.mongodb.net/?retryWrites=true&w=majority"
-    )
-    .then(() => {
-        app.listen(PORT, () => {
-            console.log(`server listening on port ${PORT}`);
-        });
+mongoose.connect(process.env.MONGO_URL!).then(() => {
+    app.listen(PORT, () => {
+        console.log(`server listening on port ${PORT}`);
     });
+});
