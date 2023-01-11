@@ -1,18 +1,54 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Form from "./components/JobForm";
-import Jobs from "./components/Jobs";
-import reactLogo from "./assets/react.svg";
+import JobCard from "./components/JobCard";
+import { getJobs, TJobs } from "./api/fetchJobs";
 
 function App() {
-    const [count, setCount] = useState(0);
+    const { jobs, error, setJobs } = useJobs();
 
     return (
         <div className="App">
             <h1 className="text-red-500">Hola</h1>
-            <Form />
-            <Jobs />
+            <Form setJobs={setJobs} />
+            <div>
+                {!error ? (
+                    <ul>
+                        {jobs?.map((job) => {
+                            return (
+                                <li key={job._id}>
+                                    <JobCard job={job} setJobs={setJobs} />
+                                </li>
+                            );
+                        })}
+                    </ul>
+                ) : (
+                    <div>error</div>
+                )}
+            </div>
         </div>
     );
 }
 
+type FetchedJobs = {
+    jobs: TJobs[];
+    setJobs: React.Dispatch<React.SetStateAction<TJobs[]>>;
+    error: string;
+};
+
+function useJobs(): FetchedJobs {
+    const [jobs, setJobs] = useState<TJobs[]>([]);
+    const [error, setError] = useState("");
+    useEffect(() => {
+        async function getData() {
+            const data = await getJobs();
+            setJobs(data);
+        }
+        getData();
+    }, []);
+    return {
+        jobs,
+        setJobs,
+        error,
+    };
+}
 export default App;

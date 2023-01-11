@@ -25,6 +25,17 @@ app.get("/jobs", async (req: Request, res: Response) => {
     res.json(jobs);
 });
 
+app.delete("/jobs/:jobId", async (req: Request, res: Response) => {
+    //TODO:
+    // find correct job
+    // delet jobs
+    //return deleted job to user
+
+    const jobId = req.params.jobId;
+    const deletedJob = await JobModel.findByIdAndDelete(jobId);
+    res.json(deletedJob);
+});
+
 mongoose.connect(process.env.MONGO_URL!).then(() => {
     app.listen(PORT, () => {
         console.log(`server listening on port ${PORT}`);

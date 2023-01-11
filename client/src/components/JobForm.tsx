@@ -1,21 +1,22 @@
 import React, { useState } from "react";
+import { createJob } from "../api/fetchJobs";
 
-type Props = {};
+type TJobs = {
+    title: string;
+    _id: string;
+};
 
-export default function Form({}: Props) {
+type Props = {
+    setJobs: React.Dispatch<React.SetStateAction<TJobs[]>>;
+};
+
+export default function Form({ setJobs }: Props) {
     const [jobTitle, setJobTitle] = useState("");
 
     async function handleAddJob(e: React.FormEvent) {
         e.preventDefault();
-        await fetch("http://localhost:8080/jobs", {
-            method: "POST",
-            body: JSON.stringify({
-                title: jobTitle,
-            }),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
+        const job = await createJob(jobTitle);
+        setJobs((prev) => [...prev, job]);
         setJobTitle("");
     }
 

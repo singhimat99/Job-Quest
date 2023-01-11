@@ -4,7 +4,7 @@ import JobCard from "./JobCard";
 type Props = {};
 
 export default function Jobs({}: Props) {
-    const { jobs, error } = useJobs();
+    const { jobs, error, setJobs } = useJobs();
     return (
         <div>
             {!error ? (
@@ -12,7 +12,7 @@ export default function Jobs({}: Props) {
                     {jobs?.map((job) => {
                         return (
                             <li key={job._id}>
-                                <JobCard job={job} />
+                                <JobCard job={job} setJobs={setJobs} />
                             </li>
                         );
                     })}
@@ -29,11 +29,13 @@ type TJobs = {
     _id: string;
 };
 
-type FetchJobs = {
+type FetchedJobs = {
     jobs: TJobs[];
+    setJobs: React.Dispatch<React.SetStateAction<TJobs[]>>;
     error: string;
 };
-function useJobs(): FetchJobs {
+
+function useJobs(): FetchedJobs {
     const [jobs, setJobs] = useState<TJobs[]>([]);
     const [error, setError] = useState("");
     useEffect(() => {
@@ -46,6 +48,7 @@ function useJobs(): FetchJobs {
     }, []);
     return {
         jobs,
+        setJobs,
         error,
     };
 }
