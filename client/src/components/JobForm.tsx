@@ -4,6 +4,7 @@ type Props = {};
 
 export default function Form({}: Props) {
     const [jobTitle, setJobTitle] = useState("");
+
     async function handleAddJob(e: React.FormEvent) {
         e.preventDefault();
         await fetch("http://localhost:8080/jobs", {
@@ -17,6 +18,7 @@ export default function Form({}: Props) {
         });
         setJobTitle("");
     }
+
     return (
         <div>
             <form onSubmit={handleAddJob}>

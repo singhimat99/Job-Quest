@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import JobCard from "./JobCard";
 
 type Props = {};
 
@@ -7,9 +8,15 @@ export default function Jobs({}: Props) {
     return (
         <div>
             {!error ? (
-                jobs?.map((job) => {
-                    return <div key={job._id}>{job.title}</div>;
-                })
+                <ul>
+                    {jobs?.map((job) => {
+                        return (
+                            <li key={job._id}>
+                                <JobCard job={job} />
+                            </li>
+                        );
+                    })}
+                </ul>
             ) : (
                 <div>error</div>
             )}
