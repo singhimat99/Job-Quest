@@ -1,31 +1,24 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
+import Dashboard from "./pages/Dashboard";
 import Form from "./components/JobForm";
 import JobCard from "./components/JobCard";
 import { getJobs, TJobs } from "./api/fetchJobs";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
     const { jobs, error, setJobs } = useJobs();
 
     return (
-        <div className="App">
-            <h1 className="text-red-500">Hola</h1>
-            <Form setJobs={setJobs} />
-            <div>
-                {!error ? (
-                    <ul>
-                        {jobs?.map((job) => {
-                            return (
-                                <li key={job._id}>
-                                    <JobCard job={job} setJobs={setJobs} />
-                                </li>
-                            );
-                        })}
-                    </ul>
-                ) : (
-                    <div>error</div>
-                )}
+        <AuthProvider>
+            <div className="App">
+                <Router>
+                    <Routes>
+                        <Route path="/" element={<Dashboard />} />
+                    </Routes>
+                </Router>
             </div>
-        </div>
+        </AuthProvider>
     );
 }
 
